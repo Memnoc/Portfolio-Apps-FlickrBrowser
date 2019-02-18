@@ -10,24 +10,30 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-enum DownloadStatus {IDLE, PROCESSING, NOT_INITIALIZED, FAILED_OR_EMPTY, OK}
+enum DownloadStatus {IDLE, PROCESSING, NOT_INITIALISED, FAILED_OR_EMPTY, OK}
 
-/**
- * CLASS TO DOWNLOAD THE DATA FROM ANY GIVEN URL
- */
 class GetRawData extends AsyncTask<String, Void, String> {
     private static final String TAG = "GetRawData";
 
     private DownloadStatus mDownloadStatus;
+    private final OnDownloadComplete mCallback;
 
-    public GetRawData() {
+    interface OnDownloadComplete {
+        void onDownloadComplete(String data, DownloadStatus status);
+    }
+
+    public GetRawData(OnDownloadComplete callback) {
         this.mDownloadStatus = DownloadStatus.IDLE;
+        mCallback = callback;
     }
 
     @Override
     protected void onPostExecute(String s) {
-//        super.onPostExecute(s);
-
+        Log.d(TAG, "onPostExecute: parameter = " + s);
+        if (mCallback != null) {
+            mCallback.onDownloadComplete(s, mDownloadStatus);
+        }
+        Log.d(TAG, "onPostExecute: ends");
     }
 
     @Override
@@ -36,9 +42,10 @@ class GetRawData extends AsyncTask<String, Void, String> {
         BufferedReader reader = null;
 
         if (strings == null) {
-            mDownloadStatus = DownloadStatus.NOT_INITIALIZED;
+            mDownloadStatus = DownloadStatus.NOT_INITIALISED;
             return null;
         }
+
         try {
             mDownloadStatus = DownloadStatus.PROCESSING;
             URL url = new URL(strings[0]);
@@ -53,19 +60,22 @@ class GetRawData extends AsyncTask<String, Void, String> {
 
             reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
-            String line;
-            while (null != (line = reader.readLine())) {
+//            String line;
+//            while(null != (line = reader.readLine())) {
+            for (String line = reader.readLine(); line != null; line = reader.readLine()) {
                 result.append(line).append("\n");
             }
+
             mDownloadStatus = DownloadStatus.OK;
             return result.toString();
+
 
         } catch (MalformedURLException e) {
             Log.e(TAG, "doInBackground: Invalid URL " + e.getMessage());
         } catch (IOException e) {
             Log.e(TAG, "doInBackground: IO Exception reading data: " + e.getMessage());
         } catch (SecurityException e) {
-            Log.e(TAG, "doInBackground: Security Exception. Needs permission?" + e.getMessage());
+            Log.e(TAG, "doInBackground: Security Exception. Needs permission? " + e.getMessage());
         } finally {
             if (connection != null) {
                 connection.disconnect();
@@ -78,7 +88,9 @@ class GetRawData extends AsyncTask<String, Void, String> {
                 }
             }
         }
+
         mDownloadStatus = DownloadStatus.FAILED_OR_EMPTY;
         return null;
     }
+
 }
