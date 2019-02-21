@@ -46,6 +46,7 @@ class GetFlickrJsonData extends AsyncTask<String, Void, List<Photo>> implements 
         Log.d(TAG, "executeOnSameThread: ends");
     }
 
+//    ******** AsyncTask *********
     @Override
     protected void onPostExecute(List<Photo> photos) {
         Log.d(TAG, "onPostExecute: starts");
@@ -66,6 +67,8 @@ class GetFlickrJsonData extends AsyncTask<String, Void, List<Photo>> implements 
         Log.d(TAG, "doInBackground: ends");
         return mPhotoList;
     }
+
+    //    ******** AsyncTask *********
 
     private String createUri(String searchCriteria, String lang, boolean matchAll) {
         Log.d(TAG, "createUri: starts");
@@ -119,8 +122,7 @@ class GetFlickrJsonData extends AsyncTask<String, Void, List<Photo>> implements 
         }
 
         if (runningOnSameThread && mCallBack != null) {
-            // inform caller that processing is done
-            // possibly returning null if there was an error
+            // inform caller that processing is done - possibly returning null if there was an error
             mCallBack.onDataAvailable(mPhotoList, status);
         }
         Log.d(TAG, "onDownloadComplete: ends");
