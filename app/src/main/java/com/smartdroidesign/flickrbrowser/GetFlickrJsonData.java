@@ -11,7 +11,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-// Class to receive the callbacks from getRawData
+/**
+ * Class to receive the callbacks from getRawData
+ * It will automatically call GetRawData on the same thread,
+ * when it's already running on a background thread'
+ */
+
 class GetFlickrJsonData extends AsyncTask<String, Void, List<Photo>> implements GetRawData.OnDownloadComplete {
     private static final String TAG = "GetFlickrJsonData";
     private String mBaseURL;
