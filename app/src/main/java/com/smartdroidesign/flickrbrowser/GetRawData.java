@@ -10,7 +10,12 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+// hold a list of download statuses
 enum DownloadStatus {IDLE, PROCESSING, NOT_INITIALISED, FAILED_OR_EMPTY, OK}
+
+/**
+ * CLASS TO DOWNLOAD THE RAW JSON DATA FROM ANY URL PROVIDED
+ */
 
 class GetRawData extends AsyncTask<String, Void, String> {
     private static final String TAG = "GetRawData";
@@ -18,22 +23,33 @@ class GetRawData extends AsyncTask<String, Void, String> {
     private DownloadStatus mDownloadStatus;
     private final OnDownloadComplete mCallback;
 
+    // *************** onDownloadComplete INTERFACE ***************
     interface OnDownloadComplete {
         void onDownloadComplete(String data, DownloadStatus status);
     }
 
+    // Class constructor
     public GetRawData(OnDownloadComplete callback) {
         this.mDownloadStatus = DownloadStatus.IDLE;
         mCallback = callback;
     }
 
+    void runInSameThread(String s) {
+        Log.d(TAG, "runInSameThread: starts");
+//        onPostExecute(doInBackground(s));
+        if (mCallback != null) {
+            mCallback.onDownloadComplete(doInBackground(s), mDownloadStatus);
+        }
+        Log.d(TAG, "runInSameThread: ends");
+    }
+
     @Override
     protected void onPostExecute(String s) {
-        Log.d(TAG, "onPostExecute: parameter = " + s);
+//        Log.d(TAG, "onPostExecute: parameter = " + s);
         if (mCallback != null) {
             mCallback.onDownloadComplete(s, mDownloadStatus);
         }
-        Log.d(TAG, "onPostExecute: ends");
+//        Log.d(TAG, "onPostExecute: ends");
     }
 
     @Override
@@ -62,6 +78,7 @@ class GetRawData extends AsyncTask<String, Void, String> {
 
 //            String line;
 //            while(null != (line = reader.readLine())) {
+            // RESTRICTING SCOPE
             for (String line = reader.readLine(); line != null; line = reader.readLine()) {
                 result.append(line).append("\n");
             }
