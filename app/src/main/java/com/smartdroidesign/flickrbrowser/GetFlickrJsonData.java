@@ -19,6 +19,7 @@ import java.util.List;
 
 class GetFlickrJsonData extends AsyncTask<String, Void, List<Photo>> implements GetRawData.OnDownloadComplete {
     private static final String TAG = "GetFlickrJsonData";
+    private List<Photo> mPhotoList = null;
     private String mBaseURL;
     private String mLanguage;
     private boolean mMatchAll;
@@ -88,8 +89,6 @@ class GetFlickrJsonData extends AsyncTask<String, Void, List<Photo>> implements 
 
     }
 
-    private List<Photo> mPhotoList = null;
-
     // JSON parsing
     @Override
     public void onDownloadComplete(String data, DownloadStatus status) {
@@ -112,7 +111,7 @@ class GetFlickrJsonData extends AsyncTask<String, Void, List<Photo>> implements 
                     JSONObject jsonMedia = jsonPhoto.getJSONObject("media");
                     String photoUrl = jsonMedia.getString("m");
 
-                    String link = photoUrl.replaceFirst("_m", "_b");
+                    String link = photoUrl.replaceFirst("_m.", "_b.");
 
                     Photo photoObject = new Photo(title, author, authorId, link, tags, photoUrl);
                     mPhotoList.add(photoObject);
