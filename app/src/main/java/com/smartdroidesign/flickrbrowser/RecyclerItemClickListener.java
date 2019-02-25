@@ -26,22 +26,20 @@ class RecyclerItemClickListener extends RecyclerView.SimpleOnItemTouchListener {
         mGestureDetector = new GestureDetectorCompat(context, new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onSingleTapUp(MotionEvent e) {
-                return super.onSingleTapUp(e);
-            }
-
-            @Override
-            public void onShowPress(MotionEvent e) {
-
-            }
-
-            @Override
-            public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-                return false;
+                Log.d(TAG, "onSingleTapUp: starts");
+                View childView = recyclerView.findChildViewUnder(e.getX(), e.getY());
+                Log.d(TAG, "onSingleTapUp: callng listener.onItemLongClick");
+                mListener.onItemClick(childView, recyclerView.getChildAdapterPosition(childView));
+                return true;
             }
 
             @Override
             public void onLongPress(MotionEvent e) {
-
+                Log.d(TAG, "onLongPress: starts");
+                View childView = recyclerView.findChildViewUnder(e.getX(), e.getY());
+                if(childView != null && mListener != null) {
+                    mListener.onItemLongClick(childView, recyclerView.getChildAdapterPosition(childView));
+                }
             }
 
             @Override
@@ -57,10 +55,10 @@ class RecyclerItemClickListener extends RecyclerView.SimpleOnItemTouchListener {
         Log.d(TAG, "onInterceptTouchEvent: started");
         if (mGestureDetector != null) {
             boolean result = mGestureDetector.onTouchEvent(e);
-            Log.d(TAG, "onInterceptTouchEvent: returned" + result);
+            Log.d(TAG, "onInterceptTouchEvent: returned: " + result);
             return result;
         } else {
-            Log.d(TAG, "onInterceptTouchEvent: returned: false");
+            Log.d(TAG, "onInterceptTouchEvent: returned: ");
             return false;
         }
     }
