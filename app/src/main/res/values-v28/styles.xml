@@ -4,6 +4,8 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
+
+        <!--fix fo API 24 and above-->
+        <item name="android:colorBackgroundFloating">@color/primary</item>
     </style>
 </resources>
