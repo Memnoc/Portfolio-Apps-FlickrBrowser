@@ -52,7 +52,7 @@ class GetFlickrJsonData extends AsyncTask<String, Void, List<Photo>> implements 
         Log.d(TAG, "executeOnSameThread: ends");
     }
 
-//    ******** AsyncTask *********
+    //    ******** AsyncTask *********
     @Override
     protected void onPostExecute(List<Photo> photos) {
         Log.d(TAG, "onPostExecute: starts");
@@ -67,7 +67,7 @@ class GetFlickrJsonData extends AsyncTask<String, Void, List<Photo>> implements 
     protected List<Photo> doInBackground(String... params) {
         Log.d(TAG, "doInBackground: starts");
         String destinationUri = createUri(params[0], mLanguage, mMatchAll);
-        
+
         GetRawData getRawData = new GetRawData(this);
         getRawData.runInSameThread(destinationUri);
         Log.d(TAG, "doInBackground: ends");
@@ -94,14 +94,14 @@ class GetFlickrJsonData extends AsyncTask<String, Void, List<Photo>> implements 
     public void onDownloadComplete(String data, DownloadStatus status) {
         Log.d(TAG, "onDownloadComplete: starts. Status = " + status);
 
-        if(status == DownloadStatus.OK) {
+        if (status == DownloadStatus.OK) {
             mPhotoList = new ArrayList<>();
 
             try {
                 JSONObject jsonData = new JSONObject(data);
                 JSONArray itemsArray = jsonData.getJSONArray("items");
 
-                for (int i=0; i<itemsArray.length(); i++) {
+                for (int i = 0; i < itemsArray.length(); i++) {
                     JSONObject jsonPhoto = itemsArray.getJSONObject(i);
                     String title = jsonPhoto.getString("title");
                     String author = jsonPhoto.getString("author");
@@ -118,7 +118,7 @@ class GetFlickrJsonData extends AsyncTask<String, Void, List<Photo>> implements 
 
                     Log.d(TAG, "onDownloadComplete: " + photoObject.toString());
                 }
-            } catch (JSONException jsone){
+            } catch (JSONException jsone) {
                 jsone.printStackTrace();
                 Log.e(TAG, "onDownloadComplete: Error processing JSON data " + jsone.getMessage());
                 status = DownloadStatus.FAILED_OR_EMPTY;

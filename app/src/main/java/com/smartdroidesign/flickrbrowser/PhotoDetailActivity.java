@@ -18,7 +18,7 @@ public class PhotoDetailActivity extends BaseActivity {
 
         Intent intent = getIntent();
         Photo photo = (Photo) intent.getSerializableExtra(PHOTO_TRANSFER);
-        if(photo != null) {
+        if (photo != null) {
             TextView photoTitle = findViewById(R.id.photoTitle);
             photoTitle.setText("Title: " + photo.getTitle());
 
@@ -28,7 +28,7 @@ public class PhotoDetailActivity extends BaseActivity {
             TextView photoAuthor = findViewById(R.id.photoAuthor);
             photoAuthor.setText(photo.getAuthor());
 
-            ImageView photoImage =findViewById(R.id.photoImg);
+            ImageView photoImage = findViewById(R.id.photoImg);
             Picasso.get().load(photo.getLink())
                     .error(R.drawable.placeholder)
                     .placeholder(R.drawable.placeholder)

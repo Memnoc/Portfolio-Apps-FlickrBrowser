@@ -11,15 +11,16 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 // hold a list of download statuses
-enum DownloadStatus {IDLE, PROCESSING, NOT_INITIALISED, FAILED_OR_EMPTY, OK}
+enum DownloadStatus {
+    IDLE, PROCESSING, NOT_INITIALISED, FAILED_OR_EMPTY, OK
+}
 
 /**
  * CLASS TO DOWNLOAD THE RAW JSON DATA FROM ANY URL PROVIDED
- *
+ * <p>
  * THIS CLASS CAN BE USED A AN ASYNCTASK
  * BUT CAN ALSO BE CALL IT FROM ANOTHER ASYNCTASK USING THE
  * runInSameThread() method, INSTEAD OF THE ASYNCTASK execute()
- *
  */
 
 class GetRawData extends AsyncTask<String, Void, String> {

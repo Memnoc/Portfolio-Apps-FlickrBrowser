@@ -50,11 +50,10 @@ class FlickrRecyclerViewAdapter extends RecyclerView.Adapter<FlickrRecyclerViewA
     }
 
 
-
     @Override
     public int getItemCount() {
 //        Log.d(TAG, "getItemCount: called");
-        return ((mPhotosList != null) && (mPhotosList.size() !=0) ? mPhotosList.size() : 0); // Ternary operator
+        return ((mPhotosList != null) && (mPhotosList.size() != 0) ? mPhotosList.size() : 0); // Ternary operator
     }
 
     void loadNewData(List<Photo> newPhotos) {
@@ -63,8 +62,8 @@ class FlickrRecyclerViewAdapter extends RecyclerView.Adapter<FlickrRecyclerViewA
     }
 
     // Display the picture in big size when thumbnail is tapped
-    public Photo getPhoto (int position) {
-        return ((mPhotosList != null) && (mPhotosList.size() !=0) ? mPhotosList.get(position) : null);
+    public Photo getPhoto(int position) {
+        return ((mPhotosList != null) && (mPhotosList.size() != 0) ? mPhotosList.get(position) : null);
     }
 
 
