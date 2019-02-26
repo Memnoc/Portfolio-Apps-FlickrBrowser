@@ -1,5 +1,6 @@
 package com.smartdroidesign.flickrbrowser;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,7 +91,10 @@ public class MainActivity extends BaseActivity implements GetFlickrJsonData.onDa
 
     @Override
     public void onItemLongClick(View view, int position) {
-        Toast.makeText(MainActivity.this, "Long tap at position" + position, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(MainActivity.this, "Long tap at position" + position, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, PhotoDetailActivity.class);
+        intent.putExtra(PHOTO_TRANSFER, (Serializable) mFlickrRecyclerViewAdapter.getPhoto(position));
+        startActivity(intent);
 
     }
 }

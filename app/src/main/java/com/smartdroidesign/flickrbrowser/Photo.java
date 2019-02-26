@@ -1,7 +1,9 @@
 package com.smartdroidesign.flickrbrowser;
 
+import java.io.Serializable;
+
 // Holding the data related to a single photo
-class Photo {
+class Photo implements Serializable {
     private String mTitle;
     private String mAuthor;
     private String mAuthorId;
