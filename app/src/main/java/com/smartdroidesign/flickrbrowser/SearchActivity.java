@@ -1,8 +1,12 @@
 package com.smartdroidesign.flickrbrowser;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.widget.SearchView;
 
 public class SearchActivity extends BaseActivity {
+
+    private SearchView mSearchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -12,4 +16,9 @@ public class SearchActivity extends BaseActivity {
         activateToolbar(true);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_search, menu);
+        return true;
+    }
 }
