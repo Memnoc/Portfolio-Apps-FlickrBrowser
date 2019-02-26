@@ -12,8 +12,8 @@ public class BaseActivity extends AppCompatActivity {
     static final String FLICKR_QUERY = "FLICKR_QUERY";
     static final String PHOTO_TRANSFER = "PHOTO_TRANSFER";
 
-    void activteToolbar(boolean enableHome) {
-        Log.d(TAG, "activteToolbar: starts");
+    void activateToolbar(boolean enableHome) {
+        Log.d(TAG, "activateToolbar: starts");
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             Toolbar toolbar = findViewById(R.id.toolbar);

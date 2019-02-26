@@ -1,10 +1,8 @@
 package com.smartdroidesign.flickrbrowser;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,8 +12,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements GetFlickrJsonData.onDataAvailable,
-                            RecyclerItemClickListener.onRecyclerClickListener{
+public class MainActivity extends BaseActivity implements GetFlickrJsonData.onDataAvailable, RecyclerItemClickListener.onRecyclerClickListener {
     private static final String TAG = "MainActivity";
     private FlickrRecyclerViewAdapter mFlickrRecyclerViewAdapter;
 
@@ -24,8 +21,7 @@ public class MainActivity extends AppCompatActivity implements GetFlickrJsonData
         Log.d(TAG, "onCreate: starts");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        activateToolbar(false);
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -35,9 +31,6 @@ public class MainActivity extends AppCompatActivity implements GetFlickrJsonData
         mFlickrRecyclerViewAdapter = new FlickrRecyclerViewAdapter(new ArrayList<Photo>(), this);
         recyclerView.setAdapter(mFlickrRecyclerViewAdapter);
 
-//        GetRawData getRawData = new GetRawData(this);
-//        getRawData.execute("https://api.flickr.com/services/feeds/photos_public.gne?tags=android,nougat,sdk&tagmode=any&format=json&nojsoncallback=1");
-
         Log.d(TAG, "onCreate: ends");
     }
 
@@ -45,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements GetFlickrJsonData
     protected void onPostResume() {
         Log.d(TAG, "onPostResume: starts");
         super.onPostResume();
-        GetFlickrJsonData getFlickrJsonData = new GetFlickrJsonData( "https://api.flickr.com/services/feeds/photos_public.gne", "en-us", true, this);
+        GetFlickrJsonData getFlickrJsonData = new GetFlickrJsonData("https://api.flickr.com/services/feeds/photos_public.gne", "en-us", true, this);
 //        getFlickrJsonData.executeOnSameThread("android, nougat");
         getFlickrJsonData.execute("android, nougat");
         Log.d(TAG, "onPostResume: ends");
