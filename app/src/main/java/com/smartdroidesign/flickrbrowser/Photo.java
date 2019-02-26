@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 // Holding the data related to a single photo
 class Photo implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     private String mTitle;
     private String mAuthor;
     private String mAuthorId;
