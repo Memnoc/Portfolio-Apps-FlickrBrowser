@@ -3,7 +3,9 @@ package com.smartdroidesign.flickrbrowser;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.widget.SearchView;
@@ -29,13 +31,9 @@ public class SearchActivity extends BaseActivity {
         Log.d(TAG, "onCreateOptionsMenu: starts");
         getMenuInflater().inflate(R.menu.menu_search, menu);
 
-        // SearchManager provides access to the system search services
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        // Getting a reference to the SearchView widget embedded in the toolbar (app_bar_search)
         mSearchView = (SearchView) menu.findItem(R.id.app_bar_search).getActionView();
-        // Get the SearchManager to retrieve the searchable info from searchable.xml
         SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
-        // Set the info into their SearchView widget to configure it
         mSearchView.setSearchableInfo(searchableInfo);
 //        Log.d(TAG, "onCreateOptionsMenu: " + getComponentName().toString());
 //        Log.d(TAG, "onCreateOptionsMenu: hint is" + mSearchView.getQueryHint());
@@ -48,6 +46,8 @@ public class SearchActivity extends BaseActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 Log.d(TAG, "onQueryTextSubmit: called");
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                sharedPreferences.edit().putString(FLICKR_QUERY, query).apply();
                 mSearchView.clearFocus();
                 finish();
                 return true;
@@ -55,6 +55,15 @@ public class SearchActivity extends BaseActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+
+        mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                finish();
                 return false;
             }
         });
