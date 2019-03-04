@@ -38,22 +38,26 @@ class FlickrRecyclerViewAdapter extends RecyclerView.Adapter<FlickrRecyclerViewA
     // so it can display it in an existing row.
     @Override
     public void onBindViewHolder(@NonNull FlickrImageViewHolder holder, int position) {
-        Photo photoItem = mPhotosList.get(position);
-        Log.d(TAG, "onBindViewHolder: " + photoItem.getTitle() + " --> " + position);
-        Picasso.get().load(photoItem.getImage())
-                .error(R.drawable.placeholder)
-                .placeholder(R.drawable.placeholder)
-                .into(holder.thumbnail);
+        if ((mPhotosList == null) || (mPhotosList.size() == 0)) {
+            holder.thumbnail.setImageResource(R.drawable.placeholder);
+            holder.title.setText(R.string.placeholder_img);
+            Log.d(TAG, "onBindViewHolder: text set at ");
+        } else {
+            Photo photoItem = mPhotosList.get(position);
+            Log.d(TAG, "onBindViewHolder: " + photoItem.getTitle() + " --> " + position);
+            Picasso.get().load(photoItem.getImage())
+                    .error(R.drawable.placeholder)
+                    .placeholder(R.drawable.placeholder)
+                    .into(holder.thumbnail);
 
-        holder.title.setText(photoItem.getTitle());
-        Log.d(TAG, "onBindViewHolder: " + photoItem.getTitle());
+            holder.title.setText(photoItem.getTitle());
+        }
     }
 
 
     @Override
     public int getItemCount() {
-//        Log.d(TAG, "getItemCount: called");
-        return ((mPhotosList != null) && (mPhotosList.size() != 0) ? mPhotosList.size() : 0); // Ternary operator
+        return ((mPhotosList != null) && (mPhotosList.size() != 0) ? mPhotosList.size() : 1); // Ternary operator
     }
 
     void loadNewData(List<Photo> newPhotos) {
